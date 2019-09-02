@@ -37,6 +37,12 @@ public:
    * Set grammar(as language model) from the  project. see attached samples for more info.
    */
   std::string setGrammarPath(std::string pGrammarPath) const;
+
+  /**
+   * Set grammar(as language model) from the  project. see attached samples for more info.
+   */
+  std::string setAcousticModelPath(std::string pHmmPath) const;
+
   /**
    * Set dictionary(graphemes to phonemes for all words in grammar) from the project. see attached samples for more info.
    */
@@ -104,6 +110,13 @@ private:
    * Path where grammar file exists for a project
    **/
   mutable std::string grammarPath = "/home/nao/naoqi/lib/LiepaASRResources/tikrinimo.gram";
+
+  /**
+   * Path where acoustic model folder exists for a project
+   **/
+  // mutable std::string hmmPath = "/home/nao/naoqi/lib/LiepaASRResources/liepa-2019_garsynas_3.0and1_56_ZR-01.3_37.cd_ptm_4000";
+  mutable std::string hmmPath = "/home/nao/naoqi/lib/LiepaASRResources/G20150114_EZ15_FZ1.3semi750-sph20141812/";
+
   /**
    * Path where dictionary file exists for a project
    **/
@@ -118,5 +131,5 @@ private:
 
 };
 
-QI_REGISTER_MT_OBJECT(LiepaASR, version, start, pause, shutdown, processRemote, setGrammarPath, setDictionaryPath, setVadThreshold, setVadPreSpeech, setVadStartSpeech, setVadPostSpeech, setSilenceProbability); // QI_REGISTER_MT_OBJECT for multithread support. QI_REGISTER_OBJECT for single thread
+QI_REGISTER_MT_OBJECT(LiepaASR, version, start, pause, shutdown, processRemote, setGrammarPath, setAcousticModelPath, setDictionaryPath, setVadThreshold, setVadPreSpeech, setVadStartSpeech, setVadPostSpeech, setSilenceProbability); // QI_REGISTER_MT_OBJECT for multithread support. QI_REGISTER_OBJECT for single thread
 

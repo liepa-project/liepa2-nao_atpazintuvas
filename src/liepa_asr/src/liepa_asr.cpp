@@ -15,6 +15,9 @@ LiepaASR::LiepaASR(qi::SessionPtr session)
 std::string LiepaASR::version() const
 {
   qiLogInfo("LiepaASR.version") << "version method called. "<< __TIMESTAMP__ <<"\n";
+  qiLogInfo("LiepaASR.version") << "acousticModel. "<< hmmPath << __TIMESTAMP__ <<"\n";
+  qiLogInfo("LiepaASR.version") << "grammarPath. "<< grammarPath << __TIMESTAMP__ <<"\n";
+  qiLogInfo("LiepaASR.version") << "dictionaryPath. "<< dictionaryPath << __TIMESTAMP__ <<"\n";
   return __TIMESTAMP__;
 }
 
@@ -33,6 +36,22 @@ std::string LiepaASR::setGrammarPath(std::string pGrammarPath) const{
   qiLogInfo("LiepaASR.setGrammarPath") << "grammar set "  <<  pGrammarPath << std::endl;;
   return "Grammar set: " + pGrammarPath;
 }
+
+/**
+ * 
+ **/
+std::string LiepaASR::setAcousticModelPath(std::string pHmmPath) const{
+  hmmPath = pHmmPath;
+  //if pocketsphinx already working, but model is chainging, we need reinitialize it. 
+  if(isInitialized){
+    isModelChanged = true;
+  }
+  
+  qiLogInfo("LiepaASR.setAcousticModelPath") << "acoustic model set "  <<  pHmmPath << std::endl;;
+  return "Acoustic model set: " + pHmmPath;
+}
+
+
 /**
  * 
  */
@@ -83,7 +102,8 @@ std::string LiepaASR::init() const
   isInRecognitionLock = false;
   cmd_ln_t *config;
   config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
-      "-hmm", "/home/nao/naoqi/lib/LiepaASRResources/liepa-2019_garsynas_3.0and1_56_ZR-01.3_37.cd_ptm_4000",  // path to the standard english language model
+      //"-hmm", "/home/nao/naoqi/lib/LiepaASRResources/liepa-2019_garsynas_3.0and1_56_ZR-01.3_37.cd_ptm_4000",  // path to the standard english language model
+      "-hmm", hmmPath,  // path to the standard english language model
       "-jsgf", grammarPath.c_str(),                                         // custom language model (file must be present)
       "-dict", dictionaryPath.c_str(),                                      // custom dictionary (file must be present)
       "-vad_threshold", vadThreshold.c_str(),
@@ -92,7 +112,7 @@ std::string LiepaASR::init() const
       "-silprob", silenceProbability.c_str(),
       // "-backtrace", "yes",
       // "-rawlogdir", "/tmp/liepa_asr_raw",
-      "-logfn", "/dev/null",                                      // suppress log info from being sent to screen
+      // "-logfn", "/dev/null",                                      // suppress log info from being sent to screen
       NULL);
   decoder = ps_init(config);
   ////////////// /SPHINX /////////////////////////
