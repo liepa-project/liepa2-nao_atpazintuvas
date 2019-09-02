@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+
+*.bak
+target
+.qi
+build-atom

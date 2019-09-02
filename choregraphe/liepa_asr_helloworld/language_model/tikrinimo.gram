@@ -1,0 +1,9 @@
+#JSGF V1.0;
+
+grammar adr_element;
+
+public <adr_element> =
+labas|
+kaip tau sekasi|
+koks tavo vardas|
+su švenom vėlykom;

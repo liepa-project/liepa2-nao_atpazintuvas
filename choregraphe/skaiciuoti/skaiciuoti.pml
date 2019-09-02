@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Package name="skaiciuoti" format_version="5">
+    <Manifest src="manifest.xml" />
+    <BehaviorDescriptions>
+        <BehaviorDescription name="behavior" src="behavior_1" xar="behavior.xar" />
+    </BehaviorDescriptions>
+    <Dialogs />
+    <Resources>
+        <File name="skaiciai" src="language_model/skaiciai.dict" />
+        <File name="skaiciai" src="language_model/skaiciai.gram" />
+    </Resources>
+    <Topics />
+    <IgnoredPaths />
+</Package>

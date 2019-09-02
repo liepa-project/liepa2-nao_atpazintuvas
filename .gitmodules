@@ -1,0 +1,6 @@
+[submodule "src/liepa_asr/sphinxbase"]
+	path = src/liepa_asr/sphinxbase
+	url = https://github.com/cmusphinx/sphinxbase.git
+[submodule "src/liepa_asr/pocketsphinx"]
+	path = src/liepa_asr/pocketsphinx
+	url = https://github.com/cmusphinx/pocketsphinx.git

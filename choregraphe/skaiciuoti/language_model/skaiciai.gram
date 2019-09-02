@@ -1,0 +1,25 @@
+#JSGF V1.0;
+
+grammar adr_element;
+
+public <adr_element> =
+vienas|
+du|
+trys|
+keturi|
+penki|
+šeši|
+septyni|
+aštuoni|
+devyni|
+dešimt|
+vienuolika|
+dvylika|
+trylika|
+keturiolika|
+penkiolika|
+šešiolika|
+septyniolika|
+aštuoniolika|
+devyniolika|
+dvidešimt;

@@ -1,0 +1,5 @@
+<project version="3">
+  <qibuild name="liepaASR">
+    <depends runtime="true" buildtime="true" names="libnaoqi" />
+  </qibuild>
+</project>

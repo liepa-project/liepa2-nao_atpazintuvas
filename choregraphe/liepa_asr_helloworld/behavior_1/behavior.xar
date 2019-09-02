@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ChoregrapheProject xmlns="http://www.ald.softbankrobotics.com/schema/choregraphe/project.xsd" xar_version="3">
+  <Box name="root" id="-1" localization="8" tooltip="Root box of Choregraphe&apos;s behavior. Highest level possible." x="0" y="0">
+    <bitmap>media/images/box/root.png</bitmap>
+    <script language="4">
+      <content>
+        <![CDATA[]]>
+      </content>
+    </script>
+    <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+    <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+    <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+    <Input name="LiepaWordRecognizedNOT" type="0" type_size="1" nature="4" stm_value_name="LiepaWordRecognizedNOT" inner="1" tooltip="LiepaWordRecognizedNOT desc" id="4" />
+    <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" />
+    <Timeline enable="0">
+      <BehaviorLayer name="behavior_layer1">
+        <BehaviorKeyframe name="keyframe1" index="1">
+          <Diagram>
+            <Box name="LiepaASRInit" id="1" localization="8" tooltip="" x="282" y="11">
+              <bitmap>media/images/box/interaction/target_sound.png</bitmap>
+              <script language="4">
+                <content>
+                  <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        grammar_path=self.behaviorAbsolutePath() + self.getParameter("grammar_file")
+        dictionary_path=self.behaviorAbsolutePath() +  self.getParameter("dictionary_file")
+        self.logger.info("grammar_path: " + grammar_path)
+        liepaASR= ALProxy("LiepaASR")
+        liepaASR.setGrammarPath(grammar_path)
+        liepaASR.setDictionaryPath(dictionary_path)
+        self.onStopped() #activate the output of the box
+
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]>
+                </content>
+              </script>
+              <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+              <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+              <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+              <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+              <Parameter name="grammar_file" inherits_from_parent="0" content_type="4" value="/../language_model/tikrinimo.gram" default_value="" tooltip="jsgf language model file." id="5" />
+              <Parameter name="dictionary_file" inherits_from_parent="0" content_type="4" value="/../language_model/tikrinimo.dict" default_value="" tooltip="sphinx dictionary word to phonemes" id="6" />
+            </Box>
+            <Box name="Blink" id="2" localization="8" tooltip="This box makes the robot blink once." x="470" y="77">
+              <bitmap>media/images/box/interaction/LED.png</bitmap>
+              <script language="4">
+                <content>
+                  <![CDATA[import time
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        self.leds = self.session().service("ALLeds")
+
+    def onUnload(self):
+        #~ puts code for box cleanup here
+        pass
+
+    def onInput_onStart(self):
+        rDuration = 0.05
+        self.leds.fadeRGB( "FaceLed0", 0x000000, rDuration, _async=True )
+        self.leds.fadeRGB( "FaceLed1", 0x000000, rDuration, _async=True )
+        self.leds.fadeRGB( "FaceLed2", 0xffffff, rDuration, _async=True )
+        self.leds.fadeRGB( "FaceLed3", 0x000000, rDuration, _async=True )
+        self.leds.fadeRGB( "FaceLed4", 0x000000, rDuration, _async=True )
+        self.leds.fadeRGB( "FaceLed5", 0x000000, rDuration, _async=True )
+        self.leds.fadeRGB( "FaceLed6", 0xffffff, rDuration, _async=True )
+        self.leds.fadeRGB( "FaceLed7", 0x000000, rDuration, _async=True )
+        time.sleep( 0.1 )
+        self.leds.fadeRGB( "FaceLeds", 0xffffff, rDuration )
+        self.onDone()]]>
+                </content>
+              </script>
+              <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+              <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+              <Output name="onDone" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" />
+            </Box>
+            <Box name="Nesupratau" id="4" localization="8" tooltip="" x="166" y="362">
+              <bitmap>media/images/box/interaction/say.png</bitmap>
+              <script language="4">
+                <content>
+                  <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        #self.onStopped() #activate the output of the box
+        ALProxy("LiepaTTS").sayText("Nesupratau. Prašau pakartok")
+        ALProxy("LiepaASR").start()
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]>
+                </content>
+              </script>
+              <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+              <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+              <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+              <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+            </Box>
+            <Box name="Pakartok" id="5" localization="8" tooltip="" x="730" y="360">
+              <bitmap>media/images/box/interaction/say.png</bitmap>
+              <script language="4">
+                <content>
+                  <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        mem = ALProxy("ALMemory")
+        val = mem.getData("LiepaWordRecognized")
+        if(not val):
+            val = "Nėra ką sakyti"
+        ALProxy("LiepaTTS").sayText("Išgirdau: " + val)
+        self.onStopped(val)
+
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]>
+                </content>
+              </script>
+              <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+              <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+              <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+              <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+            </Box>
+            <Box name="LiepaASR" id="6" localization="8" tooltip="Subscribes to a signal on a NAOqi2 service, or an event in NAOqi&apos;s shared memory&#x0A;When subscribed, the output will be triggered every time the signal is emitted or the event is raised." x="748" y="126">
+              <bitmap>media/images/box/interaction/reco_voice.png</bitmap>
+              <script language="4">
+                <content>
+                  <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        pass
+
+    def onLoad(self):
+        import threading
+        self.lock = threading.RLock()
+        self.signal = None
+        self.linkId = -1
+
+    def onUnload(self):
+        with self.lock:
+            self.unsubscribe()
+
+    def onInput_onStart(self):
+        with self.lock:
+            self.unsubscribe()
+            # !!!!!!!!!!!!!!!!
+            # MG: I added this code to start the recording.
+            ALProxy("LiepaASR").start()
+            #!!!!!!!!!!!!!!!!!
+            event = self.getParameter("event")
+
+            if(len(event) == 0):
+                self.onError("No event or signal given.")
+                return
+
+            params = event.split(".")
+            if(len(params) == 2):
+                try:
+                    self.signal = getattr(self.session().service(params[0]), params[1])
+                except Exception as e:
+                    mem = self.session().service("ALMemory")
+                    if(event in mem.getEventList()):
+                        self.signal = mem.subscriber(event).signal
+                    else:
+                        self.onError(event + ": no such service.signal pair found, and no such event declared in ALMemory. Aborting.")
+                        return
+            else:
+                self.signal = self.session().service("ALMemory").subscriber(event).signal
+
+            self.linkId = self.signal.connect(self.reemitSignal)
+
+    def onInput_onStop(self):
+        with self.lock:
+            self.unsubscribe()
+            self.onStopped()
+
+    def unsubscribe(self):
+        if(self.signal is not None and self.linkId != -1):
+            self.signal.disconnect(self.linkId)
+
+        del self.signal
+        self.signal = None
+        self.linkId = -1
+
+    def reemitSignal(self, *args):
+        if(len(args) == 0):
+            self.onEvent()
+        elif(len(args) == 1):
+            self.onEvent(args[0])
+        else:
+            self.onEvent(args)]]>
+                </content>
+              </script>
+              <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+              <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="When this input is activated, the box will try to subscribe to the signal or the event passed in the box parameter.&#x0A;&#x0A;If it is retriggered and the parameter has changed, the box will undo the previous subscription and subscribe to the new signal or the new event." id="2" />
+              <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Stop the box and cancel the subscription, if any." id="3" />
+              <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+              <Output name="onError" type="3" type_size="1" nature="1" inner="0" tooltip="This output is triggered when the box encounters an error, and contains the error message." id="5" />
+              <Output name="onEvent" type="0" type_size="1" nature="2" inner="0" tooltip="This output is triggered each time the signal/event to which the box is connected is emitted/raised. It will carry the payload associated with the signal emission/event raise." id="6" />
+              <Parameter name="event" inherits_from_parent="0" content_type="3" value="LiepaWordRecognized" default_value="" custom_choice="0" tooltip='This parameter describes the signal to connect to, and the service advertising this signal.&#x0A;&#x0A;Use the pattern &quot;Service.Signal&quot; to connect to a signal, or the event key to connect to an event.' id="7" />
+            </Box>
+            <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
+            <Link inputowner="2" indexofinput="2" outputowner="1" indexofoutput="4" />
+            <Link inputowner="4" indexofinput="2" outputowner="0" indexofoutput="4" />
+            <Link inputowner="6" indexofinput="2" outputowner="2" indexofoutput="3" />
+            <Link inputowner="5" indexofinput="2" outputowner="6" indexofoutput="6" />
+            <Link inputowner="2" indexofinput="2" outputowner="5" indexofoutput="4" />
+          </Diagram>
+        </BehaviorKeyframe>
+      </BehaviorLayer>
+    </Timeline>
+  </Box>
+</ChoregrapheProject>

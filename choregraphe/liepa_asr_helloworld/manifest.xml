@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="liepa_asr_helloworld-491b1b" version="0.0.0">
+ <names>
+  <name lang="en_US">liepa_asr_helloworld</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">Testing Liepa ASR</description>
+ </descriptions>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <names>
+    <name lang="en_US">Initial Behavior</name>
+   </names>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <requirements>
+  <naoqiRequirement maxVersion="2.8" minVersion="2.8"/>
+  <robotRequirement model="NAO"/>
+ </requirements>
+</package>

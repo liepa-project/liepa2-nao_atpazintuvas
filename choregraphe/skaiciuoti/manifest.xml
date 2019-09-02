@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="skaiciuoti-e64c99" version="0.0.0">
+ <names>
+  <name lang="en_US">skaičiuoti</name>
+ </names>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <names>
+    <name lang="en_US">Number Recognition</name>
+   </names>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <requirements>
+  <naoqiRequirement maxVersion="2.8" minVersion="2.8"/>
+  <robotRequirement model="NAO"/>
+ </requirements>
+</package>

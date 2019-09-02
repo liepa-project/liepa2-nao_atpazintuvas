@@ -1,0 +1,11 @@
+#JSGF V1.0;
+
+grammar adr_element;
+
+public <adr_element> =
+burinis laivas|
+irklinis laivas|
+valtį|
+nežinau|
+taip|
+ne;
