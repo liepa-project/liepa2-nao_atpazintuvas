@@ -1,5 +1,7 @@
 #include "liepa_asr.h"
 #include <qi/log.hpp>
+#include <sstream>
+#include <string>
 
 
 LiepaASR::LiepaASR(qi::SessionPtr session)
@@ -14,11 +16,18 @@ LiepaASR::LiepaASR(qi::SessionPtr session)
  */
 std::string LiepaASR::version() const
 {
+  std::stringstream ss;
+  ss << "version: "<< __TIMESTAMP__ <<"; ";
+  ss << "acousticModel: "<< hmmPath <<"; ";
+  ss << "grammarPath: "<< grammarPath  <<"; ";
+  ss << "dictionaryPath: "<< dictionaryPath ;
+
   qiLogInfo("LiepaASR.version") << "version method called. "<< __TIMESTAMP__ <<"\n";
-  qiLogInfo("LiepaASR.version") << "acousticModel. "<< hmmPath << __TIMESTAMP__ <<"\n";
-  qiLogInfo("LiepaASR.version") << "grammarPath. "<< grammarPath << __TIMESTAMP__ <<"\n";
-  qiLogInfo("LiepaASR.version") << "dictionaryPath. "<< dictionaryPath << __TIMESTAMP__ <<"\n";
-  return __TIMESTAMP__;
+  qiLogInfo("LiepaASR.version") << "acousticModel. "<< hmmPath <<"\n";
+  qiLogInfo("LiepaASR.version") << "grammarPath. "<< grammarPath  <<"\n";
+  qiLogInfo("LiepaASR.version") << "dictionaryPath. "<< dictionaryPath <<"\n";
+
+  return ss.str();
 }
 
 
@@ -103,7 +112,7 @@ std::string LiepaASR::init() const
   cmd_ln_t *config;
   config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
       //"-hmm", "/home/nao/naoqi/lib/LiepaASRResources/liepa-2019_garsynas_3.0and1_56_ZR-01.3_37.cd_ptm_4000",  // path to the standard english language model
-      "-hmm", hmmPath,  // path to the standard english language model
+      "-hmm", hmmPath.c_str(),  // path to the standard english language model
       "-jsgf", grammarPath.c_str(),                                         // custom language model (file must be present)
       "-dict", dictionaryPath.c_str(),                                      // custom dictionary (file must be present)
       "-vad_threshold", vadThreshold.c_str(),
