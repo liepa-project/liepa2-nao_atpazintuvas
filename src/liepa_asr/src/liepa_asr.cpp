@@ -121,7 +121,7 @@ std::string LiepaASR::init() const
       "-silprob", silenceProbability.c_str(),
       // "-backtrace", "yes",
       // "-rawlogdir", "/tmp/liepa_asr_raw",
-      // "-logfn", "/dev/null",                                      // suppress log info from being sent to screen
+      "-logfn", "/dev/null",                                      // suppress log info from being sent to screen
       NULL);
   decoder = ps_init(config);
   ////////////// /SPHINX /////////////////////////
@@ -209,16 +209,18 @@ std::string LiepaASR::shutdown() const
 }
 
 
-void LiepaASR::processRemote(int nbOfChannels, int samplesByChannel, qi::AnyValue altimestamp, qi::AnyValue buffer){
+void LiepaASR::processRemote(int nbOfChannels, int nbrOfSamplesByChannel, qi::AnyValue altimestamp, qi::AnyValue buffer){
 
 
   std::pair<char*, size_t> buffer_pointer = buffer.asRaw();
-  int16_t* remoteBuffer = (int16_t*)buffer_pointer.first;
-  int bufferSize = nbOfChannels * samplesByChannel;
-  std::vector<int16_t> channelBuffer = std::vector<int16_t>(remoteBuffer, remoteBuffer+bufferSize);  
+  int16* remoteBuffer = (int16*)buffer_pointer.first;
+  int bufferSize = nbOfChannels * (nbrOfSamplesByChannel);//one sample is 2 bytes
+  std::vector<int16> channelBuffer = std::vector<int16>(remoteBuffer, remoteBuffer+bufferSize);  
   char const *hyp;                   // pointer to "hypothesis" (best guess at the decoded result)
   int32 score;
   bool isCurrentInSpeech = false;
+
+  // qiLogInfo("LiepaASR.recognition") << "[LiepaASR][processRemote] nbOfChannels: " << nbOfChannels << "; nbrOfSamplesByChannel = " << nbrOfSamplesByChannel << "; altimestamp="  << std::endl;
 
   //////////////// SPHINX //////////////////////////
 

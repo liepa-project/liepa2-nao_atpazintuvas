@@ -105,7 +105,7 @@ private:
   /**
    * Audio buffer keep pocket sphinx feeding with bigger data chunks. see attribute remainingSamples.
    */
-  mutable std::vector<int16_t> audioBuffer;
+  mutable std::vector<int16> audioBuffer;
   /**
    * Path where grammar file exists for a project
    **/
