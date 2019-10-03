@@ -7,5 +7,6 @@ with open("nao_py_arecord2.raw", 'wb') as output:
     for i in range(160):
         audio = process.stdout.read(160 * 2)
         output.write(audio)
+        # print(audioop.rms(audio, 2))
 process.stdout.close()
 process.terminate()
