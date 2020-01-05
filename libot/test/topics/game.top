@@ -1,0 +1,26 @@
+
+topic: ~test_dialog()
+language: ltu
+
+u:(Labas) Sveiki. Aš esu Robotas Liepa. Jei nori pradėti žaidimą tark dabar.
+u:(Kaip tau sekasi) Normoje
+u:(Kuri diena) geroji
+u:(Noriu pradėti žaidimą) %stage1 Ar tau patinka keliauti?
+    u1:(taip) Kaip dažniausiai keliauji tu? ^activate(stage2)
+    u1:(ne) Klausyk, juk su robotu keliausi ar ne? ^stayInScope
+
+proposal: %stage2 Pėsčiomis, automobiliu, dviračiu, o gal lėktuvu?
+    u1:(Pėsčiomis) Puiku. ^activate(stage3)
+    u1:(automobiliu) ogo. ^activate(stage3)
+    u1:(dviračiu) gerai. ^activate(stage3)
+
+proposal: %stage3 o aš moku vaikščioti. kokia pirmoji užduotis žemėlapyje?
+    u1:(ežeras) aha tai drukštų ežeras ^activate(stage5)
+    u1:(bala) didesnė nei bala ^stayInScope
+    u1:(Nežinau) Pažiūrim kartu. Didelis. mėlynas ^stayInScope
+
+proposal: %stage5 Kaip persikelti į kitą pusę?
+    u1:(laivu) laivas mums tiktų. ^activate(stage1)
+    u1:(plaukti) plaukti sunku. ^activate(stage1)
+
+u:(e:Dialog/Fallback) Neturiu atsakymo

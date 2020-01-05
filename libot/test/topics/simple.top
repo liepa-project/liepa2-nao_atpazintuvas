@@ -1,0 +1,9 @@
+
+topic: ~test_dialog()
+language: ltu
+
+u:(Labas) Sveiki
+u:(Kaip tau sekasi) Normoje
+u:(kuri diena) geroji
+
+u:(e:Dialog/Fallback) Neturiu atsakymo
