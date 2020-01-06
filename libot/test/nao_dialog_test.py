@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import libot.nao_dialog_trainer as nao_dialog_trainer
-import libot.nao_dialog_model as nao_dialog_model
+import libot.grasp.libot_trainer as trainer
+import libot.grasp.libot_model as model
 import collections
 
 
 class NaoDialogTest(unittest.TestCase):
 
     def setUp(self):
-        self.naoDialogUtil = nao_dialog_model.NaoDialogUtil()
+        self.naoDialogUtil = model.NaoDialogUtil()
         pass
 
     def util_find_reponse(self, naoDialogModel, naoDialogContext, user_step, bot_step):
@@ -32,8 +32,8 @@ class NaoDialogTest(unittest.TestCase):
         
     # dialog_scenario = collections.OrderedDict([("Labas","sveikinas"), ("Kaip tau sekasi","normoje")])
     def util_find_reponses(self, naoDialogModel, dialog_scenario):
-        naoDialogContext = nao_dialog_model.NaoDialogContext()
-        naoDialogUtil = nao_dialog_model.NaoDialogUtil()
+        naoDialogContext = model.NaoDialogContext()
+        naoDialogUtil = model.NaoDialogUtil()
         response_arr = []
         for user_step,bot_step in dialog_scenario.items():
             response = naoDialogUtil.find_response(naoDialogModel,naoDialogContext, user_step)
@@ -50,9 +50,9 @@ language: ltu
 u:(Labas) Sveiki
 u:(Kaip tau sekasi) Normoje
 u:(kuri diena) geroji"""
-        naoDialogTrainer = nao_dialog_trainer.NaoDialogTrainer()
+        naoDialogTrainer = trainer.NaoDialogTrainer()
         naoDialogModel = naoDialogTrainer.train(dialog_str)
-        naoDialogContext = nao_dialog_model.NaoDialogContext()
+        naoDialogContext = model.NaoDialogContext()
 
         self.util_find_reponse(naoDialogModel, naoDialogContext, "Labas", "sveiki")
         self.util_find_reponse(naoDialogModel, naoDialogContext, "Kaip tau sekasi", "normoje")
@@ -66,10 +66,10 @@ language: ltu
 concept:(greetings) ^rand[sveiki "laba diena"]
 u:(~greetings) ~greetings
 u:(Kaip tau sekasi) Normoje"""
-        naoDialogTrainer = nao_dialog_trainer.NaoDialogTrainer()
+        naoDialogTrainer = trainer.NaoDialogTrainer()
         naoDialogModel = naoDialogTrainer.train(dialog_str)
 
-        naoDialogContext = nao_dialog_model.NaoDialogContext()
+        naoDialogContext = model.NaoDialogContext()
 
         self.util_find_reponse_in(naoDialogModel, naoDialogContext, "sveiki", ["sveiki",'laba diena'])
         self.util_find_reponse(naoDialogModel, naoDialogContext, "Kaip tau sekasi", "normoje")
@@ -82,10 +82,10 @@ u:(Kaip tau sekasi) Normoje
 u:(kuri diena) geroji $LibotServiceEvent=geroji
 u:(kiek valandų) pamiršau laikrodį $LibotServiceEvent=kelti_ranka
 """
-        naoDialogTrainer = nao_dialog_trainer.NaoDialogTrainer()
+        naoDialogTrainer = trainer.NaoDialogTrainer()
         naoDialogModel = naoDialogTrainer.train(dialog_str)
 
-        naoDialogContext = nao_dialog_model.NaoDialogContext()
+        naoDialogContext = model.NaoDialogContext()
 
         self.util_find_reponse(naoDialogModel, naoDialogContext, "Kaip tau sekasi", "normoje")
         self.util_find_reponse_with_event(naoDialogModel, naoDialogContext, "kuri diena", "geroji", "geroji")
@@ -99,9 +99,9 @@ concept:(greetings) ^rand[sveiki "laba diena"]
 u:(~greetings) ~greetings
 u:(Kaip tau sekasi) Normoje
 u:(kuri diena) geroji"""
-        naoDialogTrainer = nao_dialog_trainer.NaoDialogTrainer()
+        naoDialogTrainer = trainer.NaoDialogTrainer()
         naoDialogModel = naoDialogTrainer.train(dialog_str)
-        (gram, sphinx_dictionary) = nao_dialog_model.NaoDialogUtil().generate_sphinx_resouces(naoDialogModel)
+        (gram, sphinx_dictionary) = model.NaoDialogUtil().generate_sphinx_resouces(naoDialogModel)
         self.assertEqual(gram,"#JSGF V1.0;\n\ngrammar adr_element;\n\npublic <adr_element> =\nsveiki|\nlaba diena|\nkaip tau sekasi|\nkuri diena;")
         self.assertEqual(sphinx_dictionary,"diena\tD I E N A\nkaip\tK A I P\nkuri\tK U R I\nlaba\tL A B A\nsekasi\tS E K A S I\nsveiki\tS V E I K I\ntau\tT A U")
 
@@ -120,12 +120,12 @@ u:(pakalbam apie gyvūnus) tu turi katę ar šunį?
 u:(pakalbam apie sportą) puiki mintis
     """
 
-        naoDialogTrainer = nao_dialog_trainer.NaoDialogTrainer()
+        naoDialogTrainer = trainer.NaoDialogTrainer()
         naoDialogModel = naoDialogTrainer.train(dialog_str)
         # chart = naoDialogTrainer.generate_dialog_chart(naoDialogModel)
         # print(chart)
 
-        naoDialogContext = nao_dialog_model.NaoDialogContext()
+        naoDialogContext = model.NaoDialogContext()
 
         self.util_find_reponse(naoDialogModel, naoDialogContext, "pakalbam apie gyvūnus", "tu turi katę ar šunį?")
         self.util_find_reponse(naoDialogModel, naoDialogContext, "katę", "ar gyveni bute?")
@@ -146,12 +146,12 @@ proposal: %game1 ar mėgsti krepšinį
     u1:(ne) Supratu ^activate(game0)
     """
 
-        naoDialogTrainer = nao_dialog_trainer.NaoDialogTrainer()
+        naoDialogTrainer = trainer.NaoDialogTrainer()
         naoDialogModel = naoDialogTrainer.train(dialog_str)
         # chart = naoDialogTrainer.generate_dialog_chart(naoDialogModel)
         # print(chart)
 
-        naoDialogContext = nao_dialog_model.NaoDialogContext()
+        naoDialogContext = model.NaoDialogContext()
 
         self.util_find_reponse(naoDialogModel, naoDialogContext, "labas", "ar patinka žaisti?")
         self.util_find_reponse(naoDialogModel, naoDialogContext, "taip", "smagu. ar mėgsti krepšinį")
@@ -168,12 +168,12 @@ proposal: %game1 ar mėgsti krepšinį
         u1:(ne) bet gal su robotu pažaisi ^stayInScope
     """
 
-        naoDialogTrainer = nao_dialog_trainer.NaoDialogTrainer()
+        naoDialogTrainer = trainer.NaoDialogTrainer()
         naoDialogModel = naoDialogTrainer.train(dialog_str)
         # chart = naoDialogTrainer.generate_dialog_chart(naoDialogModel)
         # print(chart)
 
-        naoDialogContext = nao_dialog_model.NaoDialogContext()
+        naoDialogContext = model.NaoDialogContext()
 
         self.util_find_reponse(naoDialogModel, naoDialogContext, "labas", "ar patinka žaisti?")
         self.util_find_reponse(naoDialogModel, naoDialogContext, "ne", "bet gal su robotu pažaisi")
@@ -190,10 +190,10 @@ u:(kuri diena) geroji
 
 u:(e:Dialog/Fallback) Neturiu atsakymo
 """
-        naoDialogTrainer = nao_dialog_trainer.NaoDialogTrainer()
+        naoDialogTrainer = trainer.NaoDialogTrainer()
         naoDialogModel = naoDialogTrainer.train(dialog_str)
 
-        naoDialogContext = nao_dialog_model.NaoDialogContext()
+        naoDialogContext = model.NaoDialogContext()
 
         self.util_find_reponse(naoDialogModel, naoDialogContext, "nemokyta frazė", "neturiu atsakymo")
         self.util_find_reponse(naoDialogModel, naoDialogContext, "kuri diena", "geroji")
