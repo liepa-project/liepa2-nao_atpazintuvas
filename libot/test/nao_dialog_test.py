@@ -164,8 +164,9 @@ proposal: %game1 ar mėgsti krepšinį
         dialog_str = """topic: ~test_dialog()
     language: Lithuanian
     u:(labas) ar patinka žaisti?
-        u1:(taip) Smagu
+        u1:(taip) Smagu $LibotServiceEvent=kelti_ranka ^stayInScope
         u1:(ne) bet gal su robotu pažaisi ^stayInScope
+        u1:(nežinau) baigiam
     """
 
         naoDialogTrainer = trainer.NaoDialogTrainer()
@@ -179,6 +180,7 @@ proposal: %game1 ar mėgsti krepšinį
         self.util_find_reponse(naoDialogModel, naoDialogContext, "ne", "bet gal su robotu pažaisi")
         self.util_find_reponse(naoDialogModel, naoDialogContext, "labas", "")
         self.util_find_reponse(naoDialogModel, naoDialogContext, "taip", "smagu")
+        self.util_find_reponse(naoDialogModel, naoDialogContext, "nežinau", "baigiam")
         self.util_find_reponse(naoDialogModel, naoDialogContext, "labas", "ar patinka žaisti?")
 
 

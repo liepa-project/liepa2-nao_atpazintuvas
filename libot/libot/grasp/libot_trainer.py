@@ -202,11 +202,6 @@ class NaoDialogTrainer:
         else:
             iBotResponse = botResponse
 
-            eventMatch=self.eventValueRE.match(iBotResponse)
-            if(eventMatch):
-                iBotResponse = eventMatch.group(1).strip()
-                eventValue=eventMatch.group(2).strip()
-
             instructuctionMatch=re.compile(r'^(.*)(\^stayinscope)$').match(iBotResponse)
             if(instructuctionMatch):
                 iBotResponse = instructuctionMatch.group(1).strip()
@@ -219,6 +214,11 @@ class NaoDialogTrainer:
                 instructuction=instructuctionMatch.group(2).strip()
                 instructuctionParam=instructuctionMatch.group(3).strip()
                 instructionDict[instructuction]=instructuctionParam
+
+            eventMatch=self.eventValueRE.match(iBotResponse)
+            if(eventMatch):
+                iBotResponse = eventMatch.group(1).strip()
+                eventValue=eventMatch.group(2).strip()
 
             tagMatch=re.compile(r'^%([a-z0-9]*) (.*)$').match(iBotResponse)
             if(tagMatch):

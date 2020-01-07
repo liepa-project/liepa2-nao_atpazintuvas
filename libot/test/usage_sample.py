@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import libot.nao_dialog_trainer as nao_dialog_trainer
-import libot.nao_dialog_model as nao_dialog_model
+import libot.grasp.libot_trainer as trainer
+import libot.grasp.libot_model as model
 
 
 def main():
@@ -18,10 +18,10 @@ def main():
     dialog_str = f.read()
     f.close()
 
-    naoDialogTrainer = nao_dialog_trainer.NaoDialogTrainer()
+    naoDialogTrainer = trainer.NaoDialogTrainer()
     naoDialogModel = naoDialogTrainer.train(dialog_str)
-    naoDialogContext = nao_dialog_model.NaoDialogContext()
-    naoDialogUtil = nao_dialog_model.NaoDialogUtil()
+    naoDialogContext = model.NaoDialogContext()
+    naoDialogUtil = model.NaoDialogUtil()
 
     chart = naoDialogTrainer.generate_dialog_chart(naoDialogModel)
     print(chart)
