@@ -1,0 +1,25 @@
+topic: ~test_dialog()
+language: ltu
+
+u:(Labas) Sveiki. Aš esu Robotas Liepa. Jei nori pradėti žaidimą tark dabar.
+u:(Pamojuok) Gerai $LibotServiceEvent=mojuoti
+u:(kokia ryt diena) Gera
+u:(noriu pradėti žaidimą) %stage1 Ar tau patinka keliauti?
+    u1:(taip labai) Kaip dažniausiai keliauji tu? ^activate(stage2)
+    u1:(nemėgztu) Klausyk, juk su robotu keliausi ar ne? $LibotServiceEvent=neigti ^stayInScope
+
+proposal: %stage2 Pėsčiomis, automobiliu, dviračiu, o gal lėktuvu?
+    u1:(Pėsčiomis) Puiku. ^activate(stage3)
+    u1:(Automobiliu) ogo. ^activate(stage3)
+    u1:(Dviračiu) gerai. ^activate(stage3)
+
+proposal: %stage3 o aš moku vaikščioti. kokia pirmoji užduotis žemėlapyje?
+    u1:(Ežeras) Pritariu tai drukštų ežeras ^activate(stage5)
+    u1:(Bala) didesnė nei bala ^stayInScope
+    u1:(Nežinau) Pažiūrim kartu. Didelis. mėlynas $LibotServiceEvent=pritarti ^stayInScope
+
+proposal: %stage5 Kaip persikelti į kitą pusę?
+    u1:(Laivu) laivas mums tiktų. bandom nuo pradžių. ^activate(stage1)
+    u1:(Plaukti) plaukti sunku. bandom nuo pradžių ^activate(stage1)
+
+u:(e:Dialog/Fallback) Neturiu atsakymo
