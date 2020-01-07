@@ -60,6 +60,19 @@ std::string LiepaASR::setAcousticModelPath(std::string pHmmPath) const{
   return "Acoustic model set: " + pHmmPath;
 }
 
+/**
+ * 
+ **/
+std::string LiepaASR::setAdaptModelPath(std::string pAdaptModelPath) const{
+  adaptModelPath = pAdaptModelPath;
+  //if pocketsphinx already working, but model is chainging, we need reinitialize it. 
+  if(isInitialized){
+    isModelChanged = true;
+  }
+  
+  qiLogInfo("LiepaASR.setAdaptModelPath") << "adaptation model set "  <<  pAdaptModelPath << std::endl;;
+  return "Adaptation model set: " + pAdaptModelPath;
+}
 
 /**
  * 
@@ -109,9 +122,13 @@ std::string LiepaASR::init() const
   ////////////// SPHINX //////////////////////////
   isInSpeech = false;
   isInRecognitionLock = false;
+  const char* adaptModelPathChar = NULL;
+
   cmd_ln_t *config;
-  config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
-      //"-hmm", "/home/nao/naoqi/lib/LiepaASRResources/liepa-2019_garsynas_3.0and1_56_ZR-01.3_37.cd_ptm_4000",  // path to the standard english language model
+  //"-hmm", "/home/nao/naoqi/lib/LiepaASRResources/liepa-2019_garsynas_3.0and1_56_ZR-01.3_37.cd_ptm_4000",  // path to the standard english language model
+  //This should noone should see ever
+  if(adaptModelPath.empty()){
+    config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
       "-hmm", hmmPath.c_str(),  // path to the standard english language model
       "-jsgf", grammarPath.c_str(),                                         // custom language model (file must be present)
       "-dict", dictionaryPath.c_str(),                                      // custom dictionary (file must be present)
@@ -119,10 +136,25 @@ std::string LiepaASR::init() const
       "-vad_prespeech", vadPreSpeech.c_str(),
       "-vad_postspeech", vadPostSpeech.c_str(),
       "-silprob", silenceProbability.c_str(),
-      // "-backtrace", "yes",
-      // "-rawlogdir", "/tmp/liepa_asr_raw",
+      //"-rawlogdir", "/tmp/liepa_asr_raw",
       "-logfn", "/dev/null",                                      // suppress log info from being sent to screen
       NULL);
+  }else{
+    config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
+      "-hmm", hmmPath.c_str(),  // path to the standard english language model
+      "-jsgf", grammarPath.c_str(),                                         // custom language model (file must be present)
+      "-dict", dictionaryPath.c_str(),                                      // custom dictionary (file must be present)
+      "-vad_threshold", vadThreshold.c_str(),
+      "-vad_prespeech", vadPreSpeech.c_str(),
+      "-vad_postspeech", vadPostSpeech.c_str(),
+      "-silprob", silenceProbability.c_str(),
+      "-mllr", adaptModelPath.c_str(),
+      //"-rawlogdir", "/tmp/liepa_asr_raw",
+      "-logfn", "/dev/null",                                      // suppress log info from being sent to screen
+      NULL);
+
+  }
+  
   decoder = ps_init(config);
   ////////////// /SPHINX /////////////////////////
     qi::AnyObject  audio_service = _session->service("ALAudioDevice");
@@ -177,10 +209,12 @@ std::string LiepaASR::pause() const
     // std::cout << "[LiepaASR][pause] method called.\n";
 
     std::string message = "pause on listening";
-    int result = -1;
-    result = ps_end_utt(decoder);
+    if(isInitialized){
+      int result = -1;
+      result = ps_end_utt(decoder);
+    }
     isUttStarted = false;
-    // std::cout << "[LiepaASR][pause] ps_end_utt .\n";
+      // std::cout << "[LiepaASR][pause] ps_end_utt .\n";
     isInSpeech = false;
     isInRecognitionLock = false;
    

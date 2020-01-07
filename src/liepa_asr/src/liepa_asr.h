@@ -42,6 +42,10 @@ public:
    * Set grammar(as language model) from the  project. see attached samples for more info.
    */
   std::string setAcousticModelPath(std::string pHmmPath) const;
+  /**
+   * Set adaptation model file. now it is supporeted MLLR 
+   */
+  std::string setAdaptModelPath(std::string pAdaptModelPath) const;
 
   /**
    * Set dictionary(graphemes to phonemes for all words in grammar) from the project. see attached samples for more info.
@@ -118,6 +122,11 @@ private:
   mutable std::string hmmPath = "/home/nao/naoqi/lib/LiepaASRResources/G20150114_EZ15_FZ1.3semi750-sph20141812/";
 
   /**
+   * No adaptation by default
+   */
+  mutable std::string adaptModelPath;
+
+  /**
    * Path where dictionary file exists for a project
    **/
   mutable std::string dictionaryPath = "/home/nao/naoqi/lib/LiepaASRResources/tikrinimo.dict";
@@ -131,5 +140,5 @@ private:
 
 };
 
-QI_REGISTER_MT_OBJECT(LiepaASR, version, start, pause, shutdown, processRemote, setGrammarPath, setAcousticModelPath, setDictionaryPath, setVadThreshold, setVadPreSpeech, setVadStartSpeech, setVadPostSpeech, setSilenceProbability); // QI_REGISTER_MT_OBJECT for multithread support. QI_REGISTER_OBJECT for single thread
+QI_REGISTER_MT_OBJECT(LiepaASR, version, start, pause, shutdown, processRemote, setGrammarPath, setAcousticModelPath, setAdaptModelPath, setDictionaryPath, setVadThreshold, setVadPreSpeech, setVadStartSpeech, setVadPostSpeech, setSilenceProbability); // QI_REGISTER_MT_OBJECT for multithread support. QI_REGISTER_OBJECT for single thread
 
