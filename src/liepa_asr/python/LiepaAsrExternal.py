@@ -62,7 +62,7 @@ class LiepaAsrExternalModule(object):
         self.server_login=login
         self.server_password=password
         self.server_clientId=clientId
-        self.login()
+        self.access_token = self.login()
         # self.isProcessingDone=True
         self.isUttStarted = False
         if self.isInitialized == False:
@@ -98,8 +98,8 @@ class LiepaAsrExternalModule(object):
         print("[recognize]+++")
         files = {'file': open(file_name, 'rb')}
         theHeaders= {'Authorization': 'Bearer ' + access_token}
-        self.recognitionUrl = "https://{server_name}/api/RecognizerServiceExecution/ATP.Robotas".format(server_name=self.server_name)
-        getdata = requests.post(self.recognitionUrl, files=files,headers=theHeaders, verify=False)
+        recognitionUrl = "https://{server_name}/api/RecognizerServiceExecution/ATP.Robotas".format(server_name=self.server_name)
+        getdata = requests.post(recognitionUrl, files=files,headers=theHeaders, verify=False)
         print(getdata.json())
         print("[recognize]---")
         return getdata.json()
@@ -178,7 +178,7 @@ class LiepaAsrExternalModule(object):
             #compute the rms level on front mic
             # rmsMicFront = self.calcRMSLevel(self.micFront)
             # print ("rms level mic front = " + str(rmsMicFront))
-            print(".")
+            #print(".")
         else :
             self.isUttStarted=False
             self.obj.close()
@@ -223,39 +223,38 @@ class LiepaAsrExternalModule(object):
 
         return signedData
 
-    def run(self):
-        """
-            Deamon function just run service in background 
-        """
-        try:
-            print("Running!")
-            # self.access_token = self.login()
-            while True:
-                time.sleep(1)
-        except KeyboardInterrupt:
-            self.shutdown()
-            print ("Interrupted by user, stopping LiepaAsrExternal")
-            sys.exit(0)
+    # def run(self):
+    #     """
+    #         Deamon function just run service in background 
+    #     """
+    #     try:
+    #         print("Running!")
+    #         # self.access_token = self.login()
+    #         while True:
+    #             time.sleep(1)
+    #     except KeyboardInterrupt:
+    #         self.shutdown()
+    #         print ("Interrupted by user, stopping LiepaAsrExternal")
+    #         sys.exit(0)
 
+
+
+
+### Based on /data/home/nao/.local/share/PackageManager/apps/adjust_volume.py
+def main():
+    # Create and Start the Application
+    app = qi.Application()
+    app.start()
+    # Create the ALGenerateKnowledge Service
+    ps = LiepaAsrExternalModule(app)
+    # Register It
+    app.session.registerService("LiepaAsrExternal", ps)
+    # Run the Application
+    print("Running!")
+    app.run()
+    
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--ip", type=str, default="127.0.0.1",
-                        help="Robot IP address. On robot or Local Naoqi: use '127.0.0.1'.")
-    parser.add_argument("--port", type=int, default=9559,
-                        help="Naoqi port number")
+    main()
 
-    args = parser.parse_args()
-    try:
-        # Initialize qi framework.
-        connection_url = "tcp://" + args.ip + ":" + str(args.port)
-        app = qi.Application(["LiepaAsrExternal", "--qi-url=" + connection_url])
-    except RuntimeError:
-        print ("Can't connect to Naoqi at ip \"" + args.ip + "\" on port " + str(args.port) +".\n"
-               "Please check your script arguments. Run with -h option for help.")
-        sys.exit(1)
-    MyLiepaAsrExternalModule = LiepaAsrExternalModule(app)
-    app.session.registerService("LiepaAsrExternal", MyLiepaAsrExternalModule)
-    # MyLiepaAsrExternalModule.startProcessing()
-    MyLiepaAsrExternalModule.run()
