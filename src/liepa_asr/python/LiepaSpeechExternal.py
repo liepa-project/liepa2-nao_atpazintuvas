@@ -60,6 +60,7 @@ class LiepaSpeechExternalModule(object):
         """
         self.logger.error("[init]+++")
         print("[init]+++")
+        print("[init] server name", server_name_port)
         self.server_name= server_name_port
         self.server_login=login
         self.server_password=password
@@ -83,6 +84,7 @@ class LiepaSpeechExternalModule(object):
         self.logger.error("[login]+++")
         print("[login]+++")
         loginUrl = "https://{server_name}/token".format(server_name=self.server_name)
+        print("[login] loginUrl", loginUrl)
         payload = {'grant_type':'password','username':self.server_login,'password':self.server_password,'client_id':self.server_clientId}
         tokenResponse = requests.post(loginUrl, data=payload, verify=False)
         tokenJson=tokenResponse.json()
@@ -119,7 +121,7 @@ class LiepaSpeechExternalModule(object):
         #MG: check why it blocks
         self.audio_service.unsubscribe(self.module_name)
         self.logger.error("[shutdown]---")
-        print("[init]---")
+        print("[shutdown]---")
         sys.exit(0)
 
 
