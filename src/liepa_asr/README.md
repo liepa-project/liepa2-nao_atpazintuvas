@@ -1,4 +1,4 @@
-Precondition: see README.md in parent folder.
+Precondition: see [README.md](..) in parent folder.
 
 Create toolchain
 
