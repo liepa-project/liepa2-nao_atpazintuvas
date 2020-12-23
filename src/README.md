@@ -22,3 +22,5 @@ Pull sphinx source:
 ```
 git submodule update --init --recursive
 ```
+
+Next go to dir `liepa_asr` and see README for more instructions
