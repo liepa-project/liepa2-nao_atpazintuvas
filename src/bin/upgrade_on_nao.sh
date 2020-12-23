@@ -1,6 +1,6 @@
 #!/bin/bash
 #upgrade on nao
-liepa_asr_version=`curl --silent https://api.github.com/repos/liepa-project/nao-liepa-asr/releases/latest | grep '"tag_name":'| sed -E 's/.*"([^"]+)".*/\1/'`
+liepa_asr_version=`curl --silent https://api.github.com/repositories/205913847/releases/latest | grep '"tag_name":'| sed -E 's/.*"([^"]+)".*/\1/'`
 echo "Liepa ASR version: $liepa_asr_version "
 killall -9 LiepaASR
 rm /home/nao/naoqi/lib/LiepaASR* -rf
