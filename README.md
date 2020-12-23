@@ -1,4 +1,4 @@
-# nao-liepa-asr
+# liepa2-nao_atpazintuvas
 Lithuanian speech recognition for Robot Nao 
 
 
