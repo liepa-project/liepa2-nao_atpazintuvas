@@ -37,3 +37,19 @@ scp build-atom286/sdk/bin/LiepaASR nao@192.168.1.8:/home/nao/naoqi/lib
 Register LiepaASR service in `/home/nao/naoqi/preferences/autoload.ini`.
 
 
+Some usefull tips:
+```
+#Download wavs from robot if it was enabled from source code:
+scp nao@192.168.1.8:/tmp/liepa_asr_raw/* wav
+
+#Play pocketsphinx raw files on robot or your local machine:
+aplay -r 16000 -f S16_LE  wav.bak/000000000.raw
+
+#Convert raw files to wav
+sox -r 16k -e signed -b 16 -c 1  wav.bak/000000001.raw dabar.wav
+
+#Record audion on robot within bash
+arecord -d 2 -c 1 -f S16_LE -r16000
+
+```
+
