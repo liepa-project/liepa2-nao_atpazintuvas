@@ -35,5 +35,5 @@
 *.bak
 target
 .qi
-build-atom
+build-atom*
 .vscode
