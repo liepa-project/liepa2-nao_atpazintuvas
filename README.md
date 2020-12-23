@@ -11,5 +11,5 @@ Lithuanian speech recognition for Robot Nao
 
 
 # How to Build
-see README in `src` dir for instructions 
+see README in [src](./src) dir for instructions 
 
