@@ -24,4 +24,9 @@ Pull sphinx source:
 git submodule update --init --recursive
 ```
 
+Setup .qi/worktree
+```
+qibuild config --wizard
+```
+
 Next go to dir [liepa_asr](./liepa_asr) and see README for more instructions
