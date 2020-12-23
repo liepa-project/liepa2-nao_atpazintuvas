@@ -1,5 +1,6 @@
 Based on https://qiita.com/tkawata1025/items/afbda4b9a491dfac56d4
 
+Preconditions:
 ```
 sudo apt install cmake
 pip install qibuild --user
@@ -23,4 +24,4 @@ Pull sphinx source:
 git submodule update --init --recursive
 ```
 
-Next go to dir `liepa_asr` and see README for more instructions
+Next go to dir [liepa_asr](./liepa_asr) and see README for more instructions
