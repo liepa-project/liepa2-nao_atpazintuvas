@@ -34,3 +34,6 @@ Copy recogintion module to robot(where 192.168.1.8 is robot ip):
 scp build-atom286/sdk/bin/LiepaASR nao@192.168.1.8:/home/nao/naoqi/lib
 ```
 
+Register LiepaASR service in `/home/nao/naoqi/preferences/autoload.ini`.
+
+
