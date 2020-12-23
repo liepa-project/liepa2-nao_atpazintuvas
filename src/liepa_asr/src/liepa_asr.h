@@ -119,7 +119,7 @@ private:
    * Path where acoustic model folder exists for a project
    **/
   // mutable std::string hmmPath = "/home/nao/naoqi/lib/LiepaASRResources/liepa-2019_garsynas_3.0and1_56_ZR-01.3_37.cd_ptm_4000";
-  mutable std::string hmmPath = "/home/nao/naoqi/lib/LiepaASRResources/G20150114_EZ15_FZ1.3semi750-sph20141812/";
+  mutable std::string hmmPath = "/home/nao/naoqi/lib/LiepaASRResources/L2_g5_ptm-20201125/";
 
   /**
    * No adaptation by default

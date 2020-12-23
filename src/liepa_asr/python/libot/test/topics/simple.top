@@ -1,0 +1,12 @@
+topic: ~test_dialog()
+language: Lithuanian
+
+concept:(greetings) ^rand[laba sveiki "laba diena"]
+
+
+u:(~greetings) ~greetings
+u:(Kaip tau sekasi) Normoje
+u:(kuri diena) geroji $LibotServiceEvent=geroji
+u:(kiek valandų) pamiršau laikrodį $LibotServiceEvent=pamiršau
+
+u:(e:Dialog/Fallback) Neturiu atsakymo

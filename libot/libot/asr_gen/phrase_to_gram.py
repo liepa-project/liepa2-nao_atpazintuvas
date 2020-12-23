@@ -1,1 +1,0 @@
-/home/mondhs/bin/liepa2/phrase_to_gram.py

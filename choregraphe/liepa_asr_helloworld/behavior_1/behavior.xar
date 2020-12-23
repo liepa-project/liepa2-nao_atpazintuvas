@@ -37,8 +37,7 @@
         dictionary_path=self.behaviorAbsolutePath() +  self.getParameter("dictionary_file")
         self.logger.info("grammar_path: " + grammar_path)
         liepaASR= ALProxy("LiepaASR")
-#        liepaASR.setAcousticModelPath("/home/nao/naoqi/lib/LiepaASRResources/G20150114_EZ15_FZ1.3semi750-sph20141812/")
-        liepaASR.setAcousticModelPath("/home/nao/naoqi/lib/LiepaASRResources/liepa-2019_garsynas_3.0and1_56_ZR-01.3_37.cd_ptm_4000/")
+        liepaASR.setAcousticModelPath("/home/nao/naoqi/lib/LiepaASRResources/L2_g5_ptm-20201125/")
         liepaASR.setGrammarPath(grammar_path)
         liepaASR.setDictionaryPath(dictionary_path)
         self.onStopped() #activate the output of the box
